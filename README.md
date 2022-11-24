@@ -1,0 +1,1 @@
+# paddlesharp-ocr-aspnetcore-demo
