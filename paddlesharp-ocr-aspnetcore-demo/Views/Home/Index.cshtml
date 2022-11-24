@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>
+        <form action="/ocr" class="dropzone" id="ocr-file-form"></form>
+    </p>
+    <pre id="result"></pre>
+</div>
+
+@section scripts {
+    <script>
+        Dropzone.autoDiscover = false;
+        let myDropzone = new Dropzone("#ocr-file-form", {
+            addRemoveLinks: true,
+            success: function (file, response) {
+                document.getElementById("result").innerText = response;
+            }
+        });
+    </script>
+}

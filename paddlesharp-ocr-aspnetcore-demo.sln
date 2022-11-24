@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paddlesharp-ocr-aspnetcore-demo", "paddlesharp-ocr-aspnetcore-demo\paddlesharp-ocr-aspnetcore-demo.csproj", "{087EF94F-6BFF-4855-98A1-EE36E0BBCDAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{087EF94F-6BFF-4855-98A1-EE36E0BBCDAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087EF94F-6BFF-4855-98A1-EE36E0BBCDAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087EF94F-6BFF-4855-98A1-EE36E0BBCDAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087EF94F-6BFF-4855-98A1-EE36E0BBCDAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CE7C61C-A57E-4E30-B21E-33FC3AB163C0}
+	EndGlobalSection
+EndGlobal

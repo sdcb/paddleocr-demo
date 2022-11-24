@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>paddlesharp_ocr_aspnetcore_demo</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.6.0.20220608" />
+    <PackageReference Include="Sdcb.PaddleInference.runtime.win64.mkl" Version="2.3.2" />
+    <PackageReference Include="Sdcb.PaddleOCR" Version="2.6.0" />
+    <PackageReference Include="Sdcb.PaddleOCR.Models.LocalV3" Version="2.5.0" />
+  </ItemGroup>
+
+</Project>
