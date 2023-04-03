@@ -32,12 +32,6 @@ namespace paddlesharp_ocr_aspnetcore_demo.Controllers
 
             return new OcrResponse(all.Run(scaled).Text, sw.ElapsedMilliseconds);
         }
-
-        [Route("ocr/{id}")]
-        public IActionResult Result(Guid id)
-        {
-            return View();
-        }
     }
 
     public record OcrResponse(string Text, long ElapsedMs);
