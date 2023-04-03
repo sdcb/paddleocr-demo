@@ -14,7 +14,6 @@ namespace paddlesharp_ocr_aspnetcore_demo.Controllers
         [Route("ocr")]
         public OcrResponse Ocr(IFormFile file)
         {
-            PaddleConfig.Defaults.UseMkldnn = true;
             FullOcrModel model = LocalFullModels.ChineseV3;
 
             using MemoryStream ms = new();
@@ -25,7 +24,7 @@ namespace paddlesharp_ocr_aspnetcore_demo.Controllers
             using Mat scaled = src.Resize(Size.Zero, scale, scale);
 
             Stopwatch sw = Stopwatch.StartNew();
-            using PaddleOcrAll all = new(model)
+            using PaddleOcrAll all = new(model, PaddleDevice.Mkldnn())
             {
                 Enable180Classification = true,
                 AllowRotateDetection = true,

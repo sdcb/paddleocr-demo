@@ -11,6 +11,7 @@
         Dropzone.autoDiscover = false;
         let myDropzone = new Dropzone("#ocr-file-form", {
             addRemoveLinks: true,
+            dictDefaultMessage: "拖拽文件到此处上传或点击此处上传文件",
             success: function (file, response) {
                 document.getElementById("result").innerText = response.text;
                 document.getElementById("time-ms").innerText = response.elapsedMs;
@@ -26,6 +27,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        .dropzone {
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        [role="main"] {
+            min-height: 80vh;
         }
     </style>
 }
