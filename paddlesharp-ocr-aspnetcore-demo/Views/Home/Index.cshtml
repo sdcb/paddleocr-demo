@@ -8,6 +8,7 @@
         <form action="/ocr" class="dropzone" id="ocr-file-form"></form>
     </p>
     <pre id="result"></pre>
+    <p id="time-ms"></p>
 </div>
 
 @section scripts {
@@ -16,7 +17,8 @@
         let myDropzone = new Dropzone("#ocr-file-form", {
             addRemoveLinks: true,
             success: function (file, response) {
-                document.getElementById("result").innerText = response;
+                document.getElementById("result").innerText = response.text;
+                document.getElementById("time-ms").innerText = response.elapsedMs;
             }
         });
     </script>
