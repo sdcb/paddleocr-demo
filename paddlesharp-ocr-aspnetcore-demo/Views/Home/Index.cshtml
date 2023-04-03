@@ -1,15 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Sdcb.PaddleOCR demo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>
-        <form action="/ocr" class="dropzone" id="ocr-file-form"></form>
-    </p>
-    <pre id="result"></pre>
-    <p id="time-ms"></p>
-</div>
+<form action="/ocr" class="dropzone" id="ocr-file-form"></form>
+<div id="result"></div>
+<div id="time-ms"></div>
 
 @section scripts {
     <script>
@@ -22,4 +17,15 @@
             }
         });
     </script>
+}
+
+@section styles {
+    <style>
+        #ocr-file-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 }
