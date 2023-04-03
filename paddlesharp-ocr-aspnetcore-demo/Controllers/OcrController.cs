@@ -1,22 +1,20 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using OpenCvSharp;
-using Sdcb.PaddleInference;
-using Sdcb.PaddleOCR.Models.LocalV3;
-using Sdcb.PaddleOCR.Models;
 using Sdcb.PaddleOCR;
 using System.Diagnostics;
 
 namespace paddlesharp_ocr_aspnetcore_demo.Controllers
 {
-    public class OcrController
+    public class OcrController : Controller
     {
-        [Route("ocr")]
-        public OcrResponse Ocr(IFormFile file)
-        {
-            PaddleConfig.Defaults.UseMkldnn = true;
-            FullOcrModel model = LocalFullModels.ChineseV3;
+        private readonly QueuedPaddleOcrAll _ocr;
 
+        public OcrController(QueuedPaddleOcrAll ocr) { _ocr = ocr; }
+
+        [Route("ocr")]
+        public async Task<OcrResponse> Ocr(IFormFile file)
+        {
             using MemoryStream ms = new();
             using Stream stream = file.OpenReadStream();
             stream.CopyTo(ms);
@@ -25,13 +23,10 @@ namespace paddlesharp_ocr_aspnetcore_demo.Controllers
             using Mat scaled = src.Resize(Size.Zero, scale, scale);
 
             Stopwatch sw = Stopwatch.StartNew();
-            using PaddleOcrAll all = new(model)
-            {
-                Enable180Classification = true,
-                AllowRotateDetection = true,
-            };
+            string textResult = (await _ocr.Run(scaled)).Text;
+            sw.Stop();
 
-            return new OcrResponse(all.Run(scaled).Text, sw.ElapsedMilliseconds);
+            return new OcrResponse(textResult, sw.ElapsedMilliseconds);
         }
     }
 

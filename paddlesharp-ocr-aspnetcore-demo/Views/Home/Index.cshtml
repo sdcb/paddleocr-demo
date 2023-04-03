@@ -1,25 +1,105 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Sdcb.PaddleOCR demo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>
-        <form action="/ocr" class="dropzone" id="ocr-file-form"></form>
-    </p>
-    <pre id="result"></pre>
-    <p id="time-ms"></p>
+<div id="result-box">
+    <div id="time-ms">耗时-ms</div>
+    <div id="result">结果</div>
 </div>
+<img id="selected-image" />
+<form action="/ocr" class="dropzone" id="ocr-file-form"></form>
+
 
 @section scripts {
     <script>
         Dropzone.autoDiscover = false;
         let myDropzone = new Dropzone("#ocr-file-form", {
             addRemoveLinks: true,
+            dictDefaultMessage: "拖拽文件到此处上传或点击此处上传文件",
             success: function (file, response) {
+                document.getElementById("selected-image").src = file.dataURL;
                 document.getElementById("result").innerText = response.text;
-                document.getElementById("time-ms").innerText = response.elapsedMs;
+                document.getElementById("time-ms").innerText = `耗时：${response.elapsedMs}ms`;
+                this.removeFile(file);
             }
         });
     </script>
+}
+
+@section styles {
+    <style>
+        #ocr-file-form {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            background-color: #007bff;
+            color: #fff;
+            animation: rainbow 10s linear infinite; /* 将动画应用于按钮的背景颜色上 */
+        }
+
+        @@keyframes rainbow {
+            0% {
+                background-color: red; /* 初始颜色为红色 */
+            }
+
+            14% {
+                background-color: orange; /* 过渡到橙色 */
+            }
+
+            28% {
+                background-color: yellow; /* 过渡到黄色 */
+            }
+
+            42% {
+                background-color: green; /* 过渡到绿色 */
+            }
+
+            56% {
+                background-color: cyan; /* 过渡到青色 */
+            }
+
+            70% {
+                background-color: blue; /* 过渡到蓝色 */
+            }
+
+            84% {
+                background-color: purple; /* 过渡到紫色 */
+            }
+
+            100% {
+                background-color: red; /* 最终颜色为红色 */
+            }
+        }
+
+        .dropzone {
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #result-box {
+            flex: 1;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow: auto;
+        }
+
+        #selected-image {
+            flex: 1;
+            max-width: 50%;
+            object-fit: contain;
+            overflow: hidden;
+            align-self: flex-start;
+        }
+
+        [role="main"] {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            min-height: 80vh;
+        }
+    </style>
 }
