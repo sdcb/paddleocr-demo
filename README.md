@@ -45,3 +45,5 @@ public class OcrController : Controller
     }
 }
 ```
+
+## How to troubleshooting after deploy?
