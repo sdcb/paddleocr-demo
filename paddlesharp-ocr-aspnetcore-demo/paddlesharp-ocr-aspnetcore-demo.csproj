@@ -12,7 +12,7 @@
     <PackageReference Include="Sdcb.PaddleInference" Version="2.4.1.1" />
     <PackageReference Include="Sdcb.PaddleInference.runtime.win64.cuda117_cudnn84_tr84_sm86" Version="2.4.0" />
     <PackageReference Include="Sdcb.PaddleOCR" Version="2.6.0.2" />
-    <PackageReference Include="Sdcb.PaddleOCR.Models.LocalV3" Version="2.6.0" />
+    <PackageReference Include="Sdcb.PaddleOCR.Models.Local" Version="2.7.0" />
   </ItemGroup>
 
 </Project>
