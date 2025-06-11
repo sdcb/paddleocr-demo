@@ -12,7 +12,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Environment.SetEnvironmentVariable("GLOG_v", "2");
+        //Environment.SetEnvironmentVariable("GLOG_v", "2");
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
         builder.Services.AddGradio();
         builder.Services.AddSingleton<OcrManager>();

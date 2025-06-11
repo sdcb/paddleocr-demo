@@ -23,10 +23,10 @@ public class OcrManager : IDisposable
                     FullOcrModel model = (FullOcrModel)typeof(LocalFullModels).GetProperty(modelText, BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
                     value = new QueuedPaddleOcrAll(() => new(model, engine switch
                     {
-                        nameof(PaddleDevice.Mkldnn) => PaddleDevice.Mkldnn(cacheCapacity: 10),
-                        nameof(PaddleDevice.Openblas) => PaddleDevice.Blas(),
-                        nameof(PaddleDevice.Onnx) => PaddleDevice.Onnx(),
-                        nameof(PaddleDevice.Gpu) => PaddleDevice.Gpu(),
+                        nameof(PaddleDevice.Mkldnn) => PaddleDevice.Mkldnn(cacheCapacity: 10, glogEnabled: true),
+                        nameof(PaddleDevice.Openblas) => PaddleDevice.Blas(glogEnabled: true),
+                        nameof(PaddleDevice.Onnx) => PaddleDevice.Onnx(glogEnabled: true),
+                        nameof(PaddleDevice.Gpu) => PaddleDevice.Gpu(glogEnabled: true),
                         _ => throw new NotSupportedException()
                     }));
                     _ocrs[key] = value;
