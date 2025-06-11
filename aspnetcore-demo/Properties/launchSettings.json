@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "paddlesharp_ocr_aspnetcore_demo": {
+    "paddlesharp_ocr": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

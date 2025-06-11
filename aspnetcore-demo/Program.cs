@@ -12,6 +12,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        Environment.SetEnvironmentVariable("GLOG_v", "2");
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
         builder.Services.AddGradio();
         builder.Services.AddSingleton<OcrManager>();
@@ -34,7 +35,7 @@ public class Program
         gr.Markdown("## PaddleSharp OCR Demo");
 
         string[] knownDevices = [nameof(PaddleDevice.Mkldnn), nameof(PaddleDevice.Openblas), nameof(PaddleDevice.Onnx), nameof(PaddleDevice.Gpu)];
-        string[] knownModels = typeof(LocalFullModels).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(p => p.Name).SkipLast(1).ToArray();
+        string[] knownModels = [.. typeof(LocalFullModels).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(p => p.Name).SkipLast(1)];
         Radio devicesRadio;
         Dropdown modelsDropdown;
         using (gr.Row())
@@ -86,7 +87,7 @@ public class Program
                     (int)Number.Payload(c.Data[5])!.Value,
                     sp);
                 using var _ = dest;
-                string destFile = await sp.GetRequiredService<FileService>().SaveFile("ocr.jpg", dest.ToBytes(".jpg"));
+                string destFile = await sp.GetRequiredService<FileService>().SaveFile($"ocr-{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.jpg", dest.ToBytes(".jpg"));
                 return gr.Output(destFile, result.Text, elapsed);
             }
             else
@@ -118,16 +119,19 @@ public class Program
         IServiceProvider sp)
     {
         OcrManager om = sp.GetRequiredService<OcrManager>();
-        PaddleOcrAll all = om[engine, modelText];
+        QueuedPaddleOcrAll all = om[engine, modelText];
 
         using Mat src = Cv2.ImRead(srcImageFile, ImreadModes.Color);
         Stopwatch sw = Stopwatch.StartNew();
-        all.Detector.MaxSize = detectorMaxSize;
-        all.Detector.DilatedSize = detectorDilateSize;
-        all.Enable180Classification = enabled180Cls;
-        PaddleOcrResult result = all.Run(src);
+        PaddleOcrResult result = all.Run(src, configure: all =>
+        {
+            all.Detector.MaxSize = detectorMaxSize;
+            all.Detector.DilatedSize = detectorDilateSize;
+            all.Enable180Classification = enabled180Cls;
+            all.Detector.UnclipRatio = 1.2f;
+        }).GetAwaiter().GetResult();
         long elapsed = sw.ElapsedMilliseconds;
-        Mat dest = PaddleOcrDetector.Visualize(src, result.Regions.Select(x => x.Rect).ToArray(), Scalar.Red, thickness: 2);
+        Mat dest = PaddleOcrDetector.Visualize(src, result.Regions.Select(x => x.Rect).ToArray(), Scalar.Red, thickness: 1);
 
         return (dest, result, (int)elapsed);
     }

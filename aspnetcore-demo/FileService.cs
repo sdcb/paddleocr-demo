@@ -14,7 +14,6 @@ public class FileService(IConfiguration config)
             string secret = config["S3:SecretKey"] ?? throw new Exception("S3:SecretKey is required");
             string bucketName = config["S3:BucketName"] ?? throw new Exception("S3:BucketName is required");
             string serviceUrl = config["S3:ServiceUrl"] ?? throw new Exception("S3:ServiceUrl is required");
-
             
             return await Upload(fileName, fileContent, accessKey, secret, bucketName, serviceUrl);
         }

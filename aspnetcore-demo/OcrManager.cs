@@ -8,34 +8,38 @@ namespace Sdcb.PaddleSharp.AspNetDemo;
 
 public class OcrManager : IDisposable
 {
-    Dictionary<string, PaddleOcrAll> _ocrs = [];
+    private readonly Dictionary<string, QueuedPaddleOcrAll> _ocrs = [];
 
-    public PaddleOcrAll this[string engine, string modelText]
+    public QueuedPaddleOcrAll this[string engine, string modelText]
     {
         get
         {
             string key = $"{engine}-{modelText}";
-            if (!_ocrs.ContainsKey(key))
+            lock(_ocrs)
             {
-                FullOcrModel model = (FullOcrModel)typeof(LocalFullModels).GetProperty(modelText, BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
-                PaddleOcrAll all = new(model, engine switch
+                if (!_ocrs.TryGetValue(key, out QueuedPaddleOcrAll? value))
                 {
-                    nameof(PaddleDevice.Mkldnn) => PaddleDevice.Mkldnn(),
-                    nameof(PaddleDevice.Openblas) => PaddleDevice.Openblas(),
-                    nameof(PaddleDevice.Onnx) => PaddleDevice.Onnx(),
-                    nameof(PaddleDevice.Gpu) => PaddleDevice.Gpu(),
-                    _ => throw new NotSupportedException()
-                });
-
-                _ocrs[key] = all;
+                    Console.WriteLine($"Create {engine} - {modelText} in thread #{Environment.CurrentManagedThreadId}");
+                    FullOcrModel model = (FullOcrModel)typeof(LocalFullModels).GetProperty(modelText, BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
+                    value = new QueuedPaddleOcrAll(() => new(model, engine switch
+                    {
+                        nameof(PaddleDevice.Mkldnn) => PaddleDevice.Mkldnn(cacheCapacity: 10),
+                        nameof(PaddleDevice.Openblas) => PaddleDevice.Blas(),
+                        nameof(PaddleDevice.Onnx) => PaddleDevice.Onnx(),
+                        nameof(PaddleDevice.Gpu) => PaddleDevice.Gpu(),
+                        _ => throw new NotSupportedException()
+                    }));
+                    _ocrs[key] = value;
+                }
+                Console.WriteLine($"Get {engine} - {modelText} in thread #{Environment.CurrentManagedThreadId}");
+                return value;
             }
-            return _ocrs[key];
         }
     }
 
     public void Dispose()
     {
-        foreach (PaddleOcrAll ocr in _ocrs.Values)
+        foreach (QueuedPaddleOcrAll ocr in _ocrs.Values)
         {
             ocr.Dispose();
         }
