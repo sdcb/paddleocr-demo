@@ -121,7 +121,8 @@ public class Program
         OcrManager om = sp.GetRequiredService<OcrManager>();
         QueuedPaddleOcrAll all = om[engine, modelText];
 
-        using Mat src = Cv2.ImRead(srcImageFile, ImreadModes.Color);
+        byte[] data = System.IO.File.ReadAllBytes(srcImageFile);
+        using Mat src = Cv2.ImDecode(data, ImreadModes.Color);
         Stopwatch sw = Stopwatch.StartNew();
         PaddleOcrResult result = all.Run(src, configure: all =>
         {
