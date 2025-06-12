@@ -16,7 +16,7 @@
     <PackageReference Include="Sdcb.PaddleInference" Version="3.0.0-preview.1" />
     
     <!-- 如果是NVIDIA 10系列显卡，使用下面的包 -->
-    <PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu126_cudnn95_sm61" Version="3.0.0.26" />
+    <!--<PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu126_cudnn95_sm61" Version="3.0.0.26" />-->
 
     <!-- 如果是NVIDIA 20系列显卡，使用下面的包 -->
     <!--<PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu126_cudnn95_sm75" Version="3.0.0.26" />-->
@@ -25,7 +25,7 @@
     <!--<PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu126_cudnn95_sm86" Version="3.0.0.26" />-->
 
     <!-- 如果是NVIDIA 40系列显卡，使用下面的包 -->
-    <!--<PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu126_cudnn95_sm95" Version="3.0.0.26" />-->
+    <PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu126_cudnn95_sm89" Version="3.0.0.26" />
 
     <!-- 如果是NVIDIA 50系列显卡，使用下面的包 -->
     <!--<PackageReference Include="Sdcb.PaddleInference.runtime.win64.cu129_cudnn910_sm120" Version="3.0.0.26" />-->
