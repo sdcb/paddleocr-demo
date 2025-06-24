@@ -127,9 +127,7 @@ public class Program
         PaddleOcrResult result = all.Run(src, configure: all =>
         {
             all.Detector.MaxSize = detectorMaxSize;
-            all.Detector.DilatedSize = detectorDilateSize;
             all.Enable180Classification = enabled180Cls;
-            all.Detector.UnclipRatio = 1.2f;
         }).GetAwaiter().GetResult();
         long elapsed = sw.ElapsedMilliseconds;
         Mat dest = PaddleOcrDetector.Visualize(src, result.Regions.Select(x => x.Rect).ToArray(), Scalar.Red, thickness: 1);
